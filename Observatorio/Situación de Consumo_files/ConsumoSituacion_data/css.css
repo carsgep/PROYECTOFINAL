@@ -1,0 +1,516 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+*{
+	margin:0;
+	padding:0;
+	}
+
+body{
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size : 12px;
+}
+
+select{
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size : 14px;
+    color : #000000;
+}
+
+input{
+    font-size: 14px;
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    color : #000000;
+}
+
+.marco{
+    width:970px;
+    margin-top:-8px;
+}
+
+.barrita1 
+{
+  /*background : #d7f3f4;
+  opacity : 0.15;
+  filter: alpha(opacity=15) progid:DXImageTransform.Microsoft.Alpha(opacity=15);*/
+  background-color:#01afbc;
+  width: 970px;
+  height: 25px;
+  padding-top:8px;
+}
+
+.barrita1Ancha 
+{
+  /*background : #d7f3f4;
+  opacity : 0.15;
+  filter: alpha(opacity=15) progid:DXImageTransform.Microsoft.Alpha(opacity=15);*/
+  background-color:#01afbc;
+  width: 970px;
+  height: 60px;
+  padding-top:8px;
+}
+
+.barrita2 
+{
+  /*background : #abdbdb;
+  opacity : 0.15;
+  filter: alpha(opacity=15) progid:DXImageTransform.Microsoft.Alpha(opacity=15);*/
+  background-color:#125e99;
+  width: 970px;
+  height: 3px;
+}
+
+.barritagris
+{
+  background : #E0E6E7;
+  width: 970px;
+  height: 35px;
+}
+
+.toolbar_0, .toolbar_1, .toolbar_2
+{
+  background : #E0E6E7;
+  /*width: 100%;*/
+  width:970px;
+  height: 30px;
+  margin-left:-8px;
+}
+
+.campo {
+	height:10px;
+	margin-left:15px;
+	border-radius:3px;
+	box-shadow:1px 1px 0px 0px;
+    line-height: 1.5;
+
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size : 12px;  
+    color : #838383;
+}
+
+.fuente {
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size: 14px;
+    /*color:#000000;*/
+    color:#FFFFFF;
+	}
+
+.fuenteNota{
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    font-size : 10px;
+    color : #1A171B;
+    text-align:justify;
+    margin-left:20px;
+    width: 96%;
+}
+
+.divTitulo{
+    clear: both;
+    width:970px;
+    text-align:center;
+    margin-left:-532px;
+    /*margin-top: 20px;
+    padding-top: 10px;*/
+}
+
+.divTitulo2{
+    clear: both;
+    width:970px;
+    text-align:center;
+    margin-left:-700px;
+    /*margin-top: 20px;
+    padding-top: 10px;*/
+}
+
+.titulo{
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-weight:bolder;
+	/*margin-left:45%;*/
+	font-size: 14pt;
+	color: #0e5d98;
+	}
+
+.titulo2{
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-weight:bolder;
+	text-align: center;
+	font-size: 10pt;
+	color: #0e5d98;
+    margin-top:20px;
+}
+
+.titulo3{
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-weight:bolder;
+	text-align: center;
+	font-size: 9pt;
+	color: #0e5d98;
+}
+
+.titulo4{
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	font-weight:bolder;
+	text-align: center;
+	font-size: 12pt;
+	color: #0e5d98;
+    margin-left: 10px;
+}
+
+.fuente.gris
+{
+  font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-size : 10px;
+  color : #838383;
+}
+
+.fuente.notas
+{
+  font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-size : 7px;
+  color : #1A171B;
+}
+
+.titulo1
+{
+  font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-weight : bold;
+  font-size : 12px;
+  color : #0E5D99;
+}
+
+.titulo2
+{
+  font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-size : 12px;
+  color : #0E5D99;
+}
+
+.cuadro_opciones
+{
+  background : #FFFFFF;
+  border-radius : 2px;
+  -moz-border-radius : 2px;
+  -webkit-border-radius : 2px;
+}
+
+.boton_informe
+{
+  /*background : -moz-linear-gradient(0% 50% 0deg,rgba(255, 255, 255, 1) 0%,rgba(224, 230, 231, 1) 100%);
+  background : -webkit-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 230, 231, 1) 100%);
+  background : -webkit-gradient(linear,0% 50% ,100% 50% ,color-stop(0,rgba(255, 255, 255, 1) ),color-stop(1,rgba(224, 230, 231, 1) ));
+  background : -o-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 230, 231, 1) 100%);
+  background : -ms-linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(224, 230, 231, 1) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#E0E6E7' ,GradientType=0)";
+  background : linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(224, 230, 231, 1) 100%);
+  border-style : Solid;
+  border-color : #838383;
+  border-color : rgba(131, 131, 131, 1);
+  border-width : 0px;
+  border-radius : 2px;
+  -moz-border-radius : 2px;
+  -webkit-border-radius : 2px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF',endColorstr='#E0E6E7' , GradientType=1);
+  width: 70px;
+  height: 13px;*/
+
+    width:80px;
+	height:20px;
+	text-align:center;
+	border-radius:5px;
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	color:#FFFFFF;
+	background-color:#125e99;
+
+    /*border-bottom: 2px solid;
+    border-bottom-color: #838383;*/
+    border:none;
+
+    float: right;
+    margin-right: 15px;
+}
+
+.boton_informe:hover{
+	width:80px;
+	height:18px;
+	border-radius:5px;
+    font-family: Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+	color: #000000;
+	background-color: #D5DEE2;
+}
+
+/*.franja_inferior_boton
+{
+  background : #838383;
+  border-style : Solid;
+  border-color : #838383;
+  border-width : 0px;
+  border-radius : 0px 0px 1px 1px;
+  -moz-border-radius : 0px 0px 1px 1px;
+  -webkit-border-radius : 0px 0px 1px 1px;
+  width: 76px;
+  height: 1px;
+
+  float: right;
+}*/
+
+.texto_boton
+{
+  font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+  font-size : 12px;  
+  /*color : #838383;*/
+  color: #FFFFFF;
+  margin-top: -10px;
+}
+
+.texto_boton:hover
+{
+    color:#125e99;
+	font-weight:700;
+	text-align:center;
+	font-size:12px;
+}
+
+.flecha {
+	margin-left:15px;
+	}
+
+.flecha1 {
+	margin-left:50px;
+    margin-top: 2px;
+}
+
+
+
+.flecha2 {
+	margin-left:5px;
+	}
+
+.flecha2:hover{
+    background-color:#125e99;
+}
+
+.flecha_opciones
+{
+  background-image : url(../Images/flecha1.png);
+  background-repeat : no-repeat;
+  width: 7px;
+  height: 3,5px;
+}
+
+.flecha_atras1
+{
+  /*background-image : url(../Images/flecha1.png);
+  background-repeat : no-repeat;
+  width: 6,2px;
+  height: 10,5px;*/
+}
+
+.flecha_atras1:hover
+{
+  /*background-image : url(../Images/flecha1.png);
+  background-repeat : no-repeat;
+  width: 6,2px;
+  height: 10,5px;*/
+    background-image: url(../Images/devolver-active.png);
+    background-repeat: no-repeat;
+}
+
+.flecha_atras2
+{
+  background-image : url(../Images/flecha3.png);
+  background-repeat : no-repeat;
+  width: 9,4px;
+  height: 10,5px;
+}
+
+.flecha_devolver
+{
+  background-image : url(../Images/devolver.png);
+  background-repeat : no-repeat;
+  width: 14px;
+  height: 10,5px;
+}
+
+.flecha_adelantar
+{
+  background-image : url(../Images/adelantar.png);
+  background-repeat : no-repeat;
+  width: 14px;
+  height: 10,5px;
+}
+
+.boton_buscar
+{
+  background-image : url(../Images/buscar.png);
+  background-repeat : no-repeat;
+  width: 15px;
+  height: 13px;
+}
+
+
+.txtExportBalance{
+    /*color: #00496b;*/
+    color: #000000;
+    font-size: 14px;
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+
+    margin-top: 20px;
+    float:right;
+    width: 250px;
+    margin-right: -40px;
+}
+
+.txtExport{
+    /*color: #00496b;*/
+    color: #000000;
+    font-size: 14px;
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+
+    margin-top: 0.4em;
+    float:right;
+    width: 250px;
+    margin-right: -40px;
+}
+
+.xlsx
+{
+    background-image : url(../Images/XLSX.png);
+    background-repeat : no-repeat;
+    width: 25px;
+    height: 25px;
+
+    float:right;
+    margin-right: 10px;
+    margin-top: -4px;
+    cursor: pointer;
+}
+
+
+.xlsx:hover
+{
+    background-image : url(../Images/xlsx-active.png);
+    background-repeat : no-repeat;
+}
+
+
+.xlsx2
+{
+    background-image : url(../Images/XLSX.png);
+    background-repeat : no-repeat;
+    width: 25px;
+    height: 25px;
+
+    float:right;
+    margin-right: 150px;
+    margin-top: -4px;
+    cursor: pointer;
+}
+
+
+.xlsx2:hover
+{
+    background-image : url(../Images/xlsx-active.png);
+    background-repeat : no-repeat;
+}
+
+.pdf
+{
+    background-image:url(../Images/pdf.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+
+    float:right;
+    margin-right: 120px;
+    margin-top: -4px;
+    cursor: pointer;
+}
+
+.pdf:hover{
+    background-image:url(../Images/pdf-active.png);
+    background-repeat: no-repeat;
+}
+
+.txt
+{
+    background-image:url(../Images/txt.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+
+    float:right;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.txt:hover{
+    background-image:url(../Images/txt-active.png);
+    background-repeat: no-repeat;
+}
+
+
+.csv
+{
+    background-image:url(../Images/csv.png);
+    background-repeat:no-repeat;
+    width: 25px;
+    height: 25px;
+
+    float:right;
+    margin-right: 70px;
+    cursor: pointer;
+}
+
+.csv:hover{
+    background-image:url(../Images/csv-active.png);
+    background-repeat:no-repeat;
+}
+
+
+#divDepto{
+    position:absolute;
+    z-index: 10;
+    height: 250px;
+    width: 150px;
+    overflow-y: scroll;
+    background-color:white;
+    left:300px;
+}
+
+#iptDepto{
+    background-image:url(../Images/select2.png); 
+    font-size: 14px;
+    font-family : Calibri, Candara, Segoe, 'Segoe UI', Optima, Arial, sans-serif;
+    width: 150px;
+    overflow: hidden;
+    margin-right: 2px;
+}
+
+#result{
+      margin-top:0px !important;
+}
+
+#imgSel{
+    position:absolute;
+    width: 150px;
+    left:287px;
+    top: 8px;
+}
+
+
+/*  */
+.groupBy{
+    background: url("../Images/plus.jpg") no-repeat scroll left center transparent;
+}
+.expanded-group {
+    background: url("../Images/minus.jpg") no-repeat scroll left center transparent;
+}
+
+.collapsed-group {
+    background: url("../Images/plus.jpg") no-repeat scroll left center transparent;
+}
+
+.subgroup{ 
+    background-color: #D4DFD8;
+    border-bottom: medium solid;
+ }

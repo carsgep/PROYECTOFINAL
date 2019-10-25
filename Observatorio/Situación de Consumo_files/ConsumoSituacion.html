@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Consumo - Situacion</title>
+
+    <link rel="stylesheet" href="ConsumoSituacion_data/css.css">
+    <link rel="stylesheet" href="ConsumoSituacion_data/jquery.css">
+    <link rel="stylesheet" href="ConsumoSituacion_data/mensaje.css" type="text/css">
+    <link rel="stylesheet" href="ConsumoSituacion_data/multiple-select.css" type="text/css">
+    <script src="ConsumoSituacion_data/jquery-1.js"></script>
+    <script src="ConsumoSituacion_data/jquery-ui.js"></script>
+    <script src="ConsumoSituacion_data/jquery.js"></script>
+    <script src="ConsumoSituacion_data/jquery_002.js"></script>
+    <script src="ConsumoSituacion_data/ajax1.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var count = 0;
+
+            $("#Indicador").change(function () {
+                var ind = $("#Indicador").multipleSelect("getSelects");
+                //alert(ind.length);
+                if (ind.length > 3) {
+                    //this.unCheck;
+                    displayModelMsg("Se deben seleccionar máximo tres opciones para el Indicador");
+                }   
+            });
+           
+
+            $("#Estudio").change(function () {
+                $('#bigBox').hide();
+                /*var dd = document.getElementById("Sustancia");
+                dd.selectedIndex = 0;*/
+                count = 0;
+
+                $("#Region").multipleSelect({ placeholder: "Seleccione" }, 'refresh');
+                $("#Indicador").multipleSelect({ selectAll: false, placeholder: "Seleccione" }, 'refresh');
+
+                var dd = document.getElementById("Sustancia");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;
+
+                var dd = document.getElementById("Desagregacion");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;
+
+                /*var dd = document.getElementById("Clase");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;
+                $("#Clase").multipleSelect('refresh');*/
+                
+                if ($("#Estudio").val() != "--") {
+                    // $("#Region").multipleSelect(false);
+                    cambiaElementos($("#Estudio").val(), 'Region');
+                    cambiaElementos($("#Estudio").val(), 'Sustancia');
+
+                    cambiaElementos($("#Estudio").val(), 'Indicador');
+                }
+            });
+
+            $("#Sustancia").change(function () {
+                $('#bigBox').hide();
+                //$('#Indicador').empty().append('--')                
+                count = 0;
+                $("#Indicador").multipleSelect({ selectAll: false, placeholder: "Seleccione" }, 'refresh');
+               
+                /*var dd = document.getElementById("Clase");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;*/
+
+                /*$("#Clase").multipleSelect({ placeholder: "Seleccione" }, 'refresh');*/
+
+                var dd = document.getElementById("Desagregacion");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;
+                
+                if ($("#Sustancia").val() != "--" && $("#Sustancia").val() != "") {
+                    cambiaElementos($("#Sustancia").val(), 'Indicador');
+                }
+            });
+
+            $("#Indicador").change(function () {
+                $('#bigBox').hide();
+                /*var dd = document.getElementById("Clase");
+                dd.options.length = 0;
+                dd.options[0] = new Option("--");
+                dd.selectedIndex = 0;*/
+                /*$("#Clase").multipleSelect({ placeholder: "Seleccione" }, 'refresh');*/
+
+                if ($("#Indicador").val() != "--" && $("#Indicador").val() != ""){
+                    cambiaElementos($("#Indicador").val(), 'Desagregacion');
+                }
+                else {
+                    var dd = document.getElementById("Desagregacion");
+                    dd.options.length = 0;
+                    dd.options[0] = new Option("--");
+                    dd.selectedIndex = 0;
+                }
+            });
+
+            $("#Desagregacion").change(function () {
+                $('#bigBox').hide();
+                /*$('#Clase').multipleSelect({ placeholder: "Seleccione" }, 'refresh');*/
+                cambiaElementos($("#Desagregacion").val(), 'Clase');
+            });
+        });
+
+        jQuery(document).ajaxStart(function () {
+            ajaxindicatorstart('Procesando...');
+        }).ajaxStop(function () {
+            ajaxindicatorstop();
+        });
+    </script>
+</head>
+<body style="cursor: wait;">
+    <div class="barrita1Ancha">
+        <form id="DatosConsulta" method="post" name="DatosConsulta" action="">
+            <span class="fuente" style="margin-left:5px;" onclick="hideDiv('');">
+                Estudio&nbsp;
+                <select class="cuadro_opciones" id="Estudio" name="Estudio" style="width:120px"><option value="--">Seleccione</option>
+<option value="Nacional-2008">Nacional 2008</option>
+<option value="Escolares-2011">Escolares 2011</option>
+<option value="Nacional-2013" selected="selected">Nacional 2013</option>
+</select>
+            </span>&nbsp;&nbsp;
+            <div id="divReg" style="margin-left:220px;margin-top:-20px;position:absolute;">
+                <span class="fuente" onclick="hideDiv('');">Región Estudio&nbsp; </span>&nbsp;&nbsp;
+                <select class="cuadro_opciones" id="Region" name="Region" style="width: 200px; display: none;">
+<option value="08" selected="selected">ATLANTICO</option><option value="11001">BOGOTÁ D.C.</option><option value="13">BOLÍVAR</option><option value="15">BOYACÁ</option><option value="17">CALDAS</option><option value="76999">CALI Y YUMBO</option><option value="19">CAUCA</option><option value="20">CESAR</option><option value="27">CHOCÓ</option><option value="23">CÓRDOBA</option><option value="25000">CUNDINAMARCA</option><option value="41">HUILA</option><option value="44">LA GUAJIRA</option><option value="47">MAGDALENA</option><option value="05999">MEDELLÍN Y ÁREA METROPOLITANA</option><option value="50">META</option><option value="52">NARIÑO</option><option value="54">NORTE DE SANTANDER</option><option value="00001">ORINOQUIA Y AMAZONIA</option><option value="63">QUINDIO</option><option value="05000">RESTO ANTIOQUIA</option><option value="76000">RESTO DEL VALLE DEL CAUCA</option><option value="66">RISARALDA</option><option value="88">SAN ANDRÉS</option><option value="68">SANTANDER</option><option value="70">SUCRE</option><option value="73">TOLIMA</option></select><div class="ms-parent cuadro_opciones" style="width: 200px;"><button type="button" class="ms-choice"><span class="">Todos</span><div class=""></div></button><div class="ms-drop bottom" style="display: none;"><ul style="max-height: 250px;"><li class="ms-select-all"><label><input type="checkbox" name="selectAllRegion" checked="checked"> [Todos]</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" checked="checked" value="08"> ATLANTICO</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="11001" checked="checked"> BOGOTÁ D.C.</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="13" checked="checked"> BOLÍVAR</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="15" checked="checked"> BOYACÁ</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="17" checked="checked"> CALDAS</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="76999" checked="checked"> CALI Y YUMBO</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="19" checked="checked"> CAUCA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="20" checked="checked"> CESAR</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="27" checked="checked"> CHOCÓ</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="23" checked="checked"> CÓRDOBA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="25000" checked="checked"> CUNDINAMARCA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="41" checked="checked"> HUILA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="44" checked="checked"> LA GUAJIRA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="47" checked="checked"> MAGDALENA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="05999" checked="checked"> MEDELLÍN Y ÁREA METROPOLITANA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="50" checked="checked"> META</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="52" checked="checked"> NARIÑO</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="54" checked="checked"> NORTE DE SANTANDER</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="00001" checked="checked"> ORINOQUIA Y AMAZONIA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="63" checked="checked"> QUINDIO</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="05000" checked="checked"> RESTO ANTIOQUIA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="76000" checked="checked"> RESTO DEL VALLE DEL CAUCA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="66" checked="checked"> RISARALDA</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="88" checked="checked"> SAN ANDRÉS</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="68" checked="checked"> SANTANDER</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="70" checked="checked"> SUCRE</label></li><li class="selected"><label><input type="checkbox" name="selectItemRegion" value="73" checked="checked"> TOLIMA</label></li><li class="ms-no-results" style="display: none;"></li></ul></div></div>
+                <!--div id="imgSel" style="left:320px;"><img src="~/Images/select.png" onclick="showDiv('divReg');" />&nbsp;&nbsp;</!--div  style="margin-left:100px;position:inherit;"  >-->
+            </div>
+            &nbsp;&nbsp;
+            <div id="divSust" style="margin-left:520px;margin-top:-20px;position:absolute;">
+                <span class="fuente" style="margin-left:50px;" onclick="hideDiv('');">Sustancia&nbsp;</span>&nbsp;&nbsp;
+                <select class="cuadro_opciones" id="Sustancia" name="Sustancia" style="width:150px">
+<option value="--">Seleccione</option><option value="2CD">2CD</option><option value="ALCOHOL" selected="selected">ALCOHOL</option><option value="ANALGESICOS OPIOIDES SIN PRESCRIPCION">ANALGESICOS OPIOIDES SIN PRESCRIPCION</option><option value="BASUCO">BASUCO</option><option value="BEBIDAS ENERGIZANTES">BEBIDAS ENERGIZANTES</option><option value="COCAINA">COCAINA</option><option value="CUALQUIER SUSTANCIA">CUALQUIER SUSTANCIA</option><option value="DICK">DICK</option><option value="ESTIMULANTES">ESTIMULANTES</option><option value="EXTASIS">EXTASIS</option><option value="GHB">GHB</option><option value="HEROINA">HEROINA</option><option value="HONGOS, YAGE, CACAO SABANERO">HONGOS, YAGE, CACAO SABANERO</option><option value="INHALABLES">INHALABLES</option><option value="KETAMINA">KETAMINA</option><option value="LSD">LSD</option><option value="MARIHUANA">MARIHUANA</option><option value="METADONA SIN PRESCRIPCION">METADONA SIN PRESCRIPCION</option><option value="METANFETAMINAS">METANFETAMINAS</option><option value="POPPER">POPPER</option><option value="TABACO">TABACO</option><option value="TRANQUILIZANTES">TRANQUILIZANTES</option></select>
+                <!--div id="imgSel" style="left:600px;"><img src="~/Images/select.png" onclick="showDiv('');" />&nbsp;&nbsp;</!--div>-->
+                <!--span class="fuente" style="margin-left:50px;">Desagregación&nbsp;</!--span><div id="imgSel" style="left:300px;"><img src="~/Images/select.png" onclick="showDiv('divDepto');" /></div>-->   
+            </div>
+            <div id="divIndic" style="margin-left:5px;margin-top:10px;position:absolute;">
+                <span class="fuente" onclick="hideDiv('divDepto');">Indicador&nbsp;&nbsp;</span>
+                <select class="cuadro_opciones" id="Indicador" name="Indicador" style="width: 200px; display: none;">
+<option value="% de personas con consumo riesgoso o perjudicial  respecto a consumidores últimos 30 días">% de personas con consumo riesgoso o perjudicial  respecto a consumidores últimos 30 días</option><option value="% de personas con consumo riesgoso o perjudicial respecto a total de población">% de personas con consumo riesgoso o perjudicial respecto a total de población</option><option value="Edad Inicio - Media">Edad Inicio - Media</option><option value="Edad Inicio - Mediana" selected="selected">Edad Inicio - Mediana</option><option value="Edad Inicio - Percentil 25">Edad Inicio - Percentil 25</option><option value="Edad Inicio - Percentil 75">Edad Inicio - Percentil 75</option><option value="Gran riesgo Alcohol - Número Consumidores">Gran riesgo Alcohol - Número Consumidores</option><option value="Gran riesgo Alcohol - Porcentaje">Gran riesgo Alcohol - Porcentaje</option><option value="Número de consumidores Año">Número de consumidores Año</option><option value="Número de consumidores Mes">Número de consumidores Mes</option><option value="Número de consumidores Vida">Número de consumidores Vida</option><option value="Número de personas con consumo riesgoso o perjudicial">Número de personas con consumo riesgoso o perjudicial</option><option value="Prevalencia Año">Prevalencia Año</option><option value="Prevalencia Mes">Prevalencia Mes</option><option value="Prevalencia Vida">Prevalencia Vida</option></select><div class="ms-parent cuadro_opciones" style="width: 200px;"><button type="button" class="ms-choice"><span class=""> Edad Inicio - Mediana,  Número de consumidores Año</span><div class=""></div></button><div class="ms-drop bottom" style="display: none;"><ul style="max-height: 250px;"><li class=""><label><input type="checkbox" name="selectItemIndicador" value="% de personas con consumo riesgoso o perjudicial  respecto a consumidores últimos 30 días"> % de personas con consumo riesgoso o perjudicial  respecto a consumidores últimos 30 días</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="% de personas con consumo riesgoso o perjudicial respecto a total de población"> % de personas con consumo riesgoso o perjudicial respecto a total de población</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Edad Inicio - Media"> Edad Inicio - Media</label></li><li class="selected"><label><input type="checkbox" name="selectItemIndicador" value="Edad Inicio - Mediana" checked="checked"> Edad Inicio - Mediana</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Edad Inicio - Percentil 25"> Edad Inicio - Percentil 25</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Edad Inicio - Percentil 75"> Edad Inicio - Percentil 75</label></li><li class=""><label><input type="checkbox" name="selectItemIndicador" value="Gran riesgo Alcohol - Número Consumidores"> Gran riesgo Alcohol - Número Consumidores</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Gran riesgo Alcohol - Porcentaje"> Gran riesgo Alcohol - Porcentaje</label></li><li class="selected"><label><input type="checkbox" name="selectItemIndicador" value="Número de consumidores Año" checked="checked"> Número de consumidores Año</label></li><li class=""><label><input type="checkbox" name="selectItemIndicador" value="Número de consumidores Mes"> Número de consumidores Mes</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Número de consumidores Vida"> Número de consumidores Vida</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Número de personas con consumo riesgoso o perjudicial"> Número de personas con consumo riesgoso o perjudicial</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Prevalencia Año"> Prevalencia Año</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Prevalencia Mes"> Prevalencia Mes</label></li><li><label><input type="checkbox" name="selectItemIndicador" value="Prevalencia Vida"> Prevalencia Vida</label></li><li class="ms-no-results" style="display: none;"></li></ul></div></div>
+            </div>
+            <div id="divDes" style="margin-left:290px;margin-top:10px;position:absolute;">
+                <span class="fuente">Desagregación&nbsp;</span>
+                <select class="cuadro_opciones" id="Desagregacion" name="Desagregacion" style="width:150px">
+<option value="--">Seleccione</option><option value="GENERO" selected="selected">GENERO</option><option value="TOTAL">TOTAL</option></select>
+                <input type="hidden" id="txtClase" value="Hombre,Mujer">
+            </div>
+            
+            <button type="button" name="Generar" class="boton_informe" onclick="ConsultarConsSituacion()" style="margin-right:5px;margin-top:15px;"><span class="texto_boton" onclick="hideDiv('divDepto');">Ver Informe</span></button>
+        </form>
+    </div>
+    <div id="" class="barrita2"></div>
+    <div id="overlay" style="visibility: hidden;">
+        <div>
+            <table width="400" cellspacing="1" cellpadding="3" border="0">
+                <tbody><tr>
+                    <td class="mensaje">
+                        <table style="width:100%">
+                            <tbody><tr>
+                                <td style="width:90%" id="divTitle">Error de validación</td>
+                                <td><img src="ConsumoSituacion_data/verificacionx.png" onclick="el.style.visibility = 'hidden';"></td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="mensaje2">
+                        <table style="width:100%">
+                            <tbody><tr>
+                                <td style="width:100%"><img src="ConsumoSituacion_data/verificacion.png"></td>
+                            </tr>
+                            <tr>
+                                <td id="divMensaje">Debe seleccionar un valor para cada variable</td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+
+    <div class="marco" id="bigBox" style="display: block;">
+        <div id="result"><div id="tblDatos_wrapper" class="dataTables_wrapper no-footer"><div><div id="tblDatos_filter" class="dataTables_filter"><label>Buscar:<input type="search" class="" placeholder="" aria-controls="tblDatos"></label></div><div class="toolbar_1"><div class="txtExport">Exportar a: <div class="pdf" onclick="ExportPdfConsSitu();"></div><div class="xlsx" onclick="ExportExcelConsSitu();"></div><div id="titulo" class="divTitulo"><br><br><p class="titulo">ESTUDIOS DE CONSUMO: 2013</p><br><p class="titulo4">        Tipo de población     : General</p><br><p class="titulo4">        Sustancia     : ALCOHOL</p><br><p class="titulo4">        Indicador     : Edad Inicio - Mediana,Número de consumidores Año</p><br><p class="titulo4">        Desagregación     : GENERO</p><br><br></div></div></div><table id="tblDatos" class="dataTable no-footer" role="grid" style="width: 941px;"><thead><tr role="row"><td rowspan="2" class="sorting_asc" tabindex="0" aria-controls="tblDatos" colspan="1" style="width: 175.4px;" aria-sort="ascending" aria-label="Region: activate to sort column descending">Region</td><th colspan="2" rowspan="1">Hombre</th><th colspan="2" rowspan="1">Mujer</th></tr><tr role="row"><th class="sorting" tabindex="0" aria-controls="tblDatos" rowspan="1" colspan="1" style="width: 120.4px;" aria-label="Edad Inicio - Mediana: activate to sort column ascending">Edad Inicio - Mediana</th><th class="sorting" tabindex="0" aria-controls="tblDatos" rowspan="1" colspan="1" style="width: 168.4px;" aria-label="Número de consumidores Año: activate to sort column ascending">Número de consumidores Año</th><th class="sorting" tabindex="0" aria-controls="tblDatos" rowspan="1" colspan="1" style="width: 120.4px;" aria-label="Edad Inicio - Mediana: activate to sort column ascending">Edad Inicio - Mediana</th><th class="sorting" tabindex="0" aria-controls="tblDatos" rowspan="1" colspan="1" style="width: 168.4px;" aria-label="Número de consumidores Año: activate to sort column ascending">Número de consumidores Año</th></tr></thead><tbody><tr role="row" class="odd"><td class="sorting_1">ATLANTICO</td><td>17,00</td><td>516.750,30</td><td>18,00</td><td>372.333,12</td></tr><tr role="row" class="even"><td class="sorting_1">BOGOTÁ D.C.</td><td>16,00</td><td>1.975.907,16</td><td>18,00</td><td>1.554.188,28</td></tr><tr role="row" class="odd"><td class="sorting_1">BOLÍVAR</td><td>17,00</td><td>314.094,42</td><td>19,00</td><td>243.928,50</td></tr><tr role="row" class="even"><td class="sorting_1">BOYACÁ</td><td>16,00</td><td>140.142,78</td><td>18,00</td><td>100.793,64</td></tr><tr role="row" class="odd"><td class="sorting_1">CALDAS</td><td>16,00</td><td>111.397,44</td><td>18,00</td><td>90.641,94</td></tr><tr role="row" class="even"><td class="sorting_1">CALI Y YUMBO</td><td>16,00</td><td>584.096,76</td><td>18,00</td><td>491.210,76</td></tr><tr role="row" class="odd"><td class="sorting_1">CAUCA</td><td>16,00</td><td>76.150,08</td><td>18,00</td><td>55.452,12</td></tr><tr role="row" class="even"><td class="sorting_1">CESAR</td><td>16,00</td><td>124.442,58</td><td>18,00</td><td>89.737,74</td></tr><tr role="row" class="odd"><td class="sorting_1">CHOCÓ</td><td>16,00</td><td>33.628,02</td><td>18,00</td><td>26.410,86</td></tr><tr role="row" class="even"><td class="sorting_1">CUNDINAMARCA</td><td>16,00</td><td>359.559,24</td><td>18,00</td><td>240.846,00</td></tr><tr role="row" class="odd"><td class="sorting_1">CÓRDOBA</td><td>17,00</td><td>201.028,32</td><td>19,00</td><td>123.949,38</td></tr><tr role="row" class="even"><td class="sorting_1">HUILA</td><td>16,00</td><td>129.728,04</td><td>17,00</td><td>95.984,94</td></tr><tr role="row" class="odd"><td class="sorting_1">LA GUAJIRA</td><td>17,00</td><td>86.236,02</td><td>19,00</td><td>57.359,16</td></tr><tr role="row" class="even"><td class="sorting_1">MAGDALENA</td><td>17,00</td><td>188.706,54</td><td>18,00</td><td>120.488,76</td></tr><tr role="row" class="odd"><td class="sorting_1">MEDELLÍN Y ÁREA METROPOLITANA</td><td>16,00</td><td>1.010.205,12</td><td>18,00</td><td>765.561,48</td></tr><tr role="row" class="even"><td class="sorting_1">META</td><td>16,00</td><td>142.584,12</td><td>18,00</td><td>113.304,48</td></tr><tr role="row" class="odd"><td class="sorting_1">NARIÑO</td><td>17,00</td><td>123.990,48</td><td>18,00</td><td>101.574,54</td></tr><tr role="row" class="even"><td class="sorting_1">NORTE DE SANTANDER</td><td>17,00</td><td>223.534,68</td><td>18,00</td><td>165.830,28</td></tr><tr role="row" class="odd"><td class="sorting_1">ORINOQUIA Y AMAZONIA</td><td>16,00</td><td>155.826,54</td><td>18,00</td><td>114.373,08</td></tr><tr role="row" class="even"><td class="sorting_1">QUINDIO</td><td>16,00</td><td>117.217,20</td><td>17,00</td><td>94.875,24</td></tr><tr role="row" class="odd"><td class="sorting_1">RESTO ANTIOQUIA</td><td>15,00</td><td>193.556,34</td><td>18,00</td><td>130.689,78</td></tr><tr role="row" class="even"><td class="sorting_1">RESTO DEL VALLE DEL CAUCA</td><td>16,00</td><td>313.617,66</td><td>18,00</td><td>233.398,68</td></tr><tr role="row" class="odd"><td class="sorting_1">RISARALDA</td><td>16,00</td><td>153.837,30</td><td>18,00</td><td>122.913,66</td></tr><tr role="row" class="even"><td class="sorting_1">SAN ANDRÉS</td><td>17,00</td><td>18.338,82</td><td>19,00</td><td>12.601,26</td></tr><tr role="row" class="odd"><td class="sorting_1">SANTANDER</td><td>17,00</td><td>329.416,50</td><td>18,00</td><td>226.058,22</td></tr><tr role="row" class="even"><td class="sorting_1">SUCRE</td><td>17,00</td><td>80.580,66</td><td>19,00</td><td>50.355,72</td></tr><tr role="row" class="odd"><td class="sorting_1">TOLIMA</td><td>17,00</td><td>107.394,30</td><td>18,00</td><td>99.626,40</td></tr></tbody></table></div></div></div>
+    </div>
+
+
+<div id="resultLoading" style="width: 100%; height: 100%; position: fixed; z-index: 10000000; inset: 0px; margin: auto; display: block;"><div style="width: 250px; height: 75px; text-align: center; position: fixed; inset: 0px; margin: auto; font-size: 16px; z-index: 10; color: rgb(255, 255, 255);"><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div><div id="resultLoading" style="display:none"><div><img src="ConsumoSituacion_data/visor-load.gif"><div>Procesando...</div></div></div></body></html>
