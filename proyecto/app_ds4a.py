@@ -165,7 +165,8 @@ def layout():
      children=[
 
 
-            dcc.Loading(className='dashbio-loading', children=html.Div(
+            #dcc.Loading(className='dashbio-loading', children=
+            html.Div(
                 id='clustergram-wrapper',
                   style={
                     'padding': '30px',
@@ -204,7 +205,7 @@ def layout():
                         
                     )
             }
-        )])),
+        )]),
         #Char
         html.Div(
                 id='graph1',    
