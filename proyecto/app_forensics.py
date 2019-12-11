@@ -83,13 +83,32 @@ def calctasas(df1):
     dfret=dfret.merge(poblacion, on='Mun_corrected')
     dfret['casosm'] =dfret['casosm'].astype(int)
     dfret['casosh'] =dfret['casosh'].astype(int)
-    dfret['tasah']=dfret['casosh']/(dfret['Poblacion']/100000)
-    dfret['tasam']=dfret['casosm']/(dfret['Poblacion']/100000)
+    dfret['tasah']=(dfret['casosh']/(dfret['Poblacion']/200000)).astype(int)
+    dfret['tasam']=(dfret['casosm']/(dfret['Poblacion']/200000)).astype(int)
     dfret['total']=dfret['casosm']+dfret['casosh']
-    dfret['tasat']=dfret['total']/(dfret['Poblacion']/100000)
+    dfret['tasat']=(dfret['total']/(dfret['Poblacion']/100000)).astype(int)
     return dfret
 
+def calculate_bar(df,dpto):
+     data = []
+     dff = df.copy()
+     dff['YEAR'] =dff['Fecha'].dt.to_period('Y').dt.strftime('%Y')
+     by_date = dff >> group_by(X.YEAR) >> summarize(Cases = X.Fecha.count())
+     #sns.lineplot(x = 'Fecha', y = 'Cases', data = by_date, palette='viridis')
+     if states:
+        dff = dff[(df['State_abbr'].isin(states))]
+        
+     if  start_date and end_date:
+        dff = dff[(df['Fecha'] >= start_date) & (df['Fecha'] <= end_date)]
 
+    #subcategory_grouped = dff.groupby(['Category'], as_index=False)
+    #for name, group in subcategory_grouped:
+     #   grouped = group.groupby('YearMonth', as_index=False).sum()
+     data.append(go.Bar(
+        x=by_date['YEAR'], y=by_date['Cases'],marker=dict(color='#FFBF00')))
+  
+    
+     return data
 
 
 
@@ -168,17 +187,26 @@ def header_colors():
     }
 
 
-def filter_df(df,año,tipo,sexo):
+def filter_df(df,año,tipo,sexo,den=None):
  dff=df.copy()
  var=''
  if(año!='TOD'):
     dff=dff[dff['año']==año]
- if(sexo=='HOM'):
-    var='tasah' 
- if(sexo=='MUJ'):
-    var='tasam'
- if(sexo=='TOD'):
-    var='tasat'
+ if(den=='DEN'):
+    if(sexo=='HOM'):
+        var='tasah' 
+    if(sexo=='MUJ'):
+        var='tasam'
+    if(sexo=='TOD'):
+        var='tasat'
+ else:
+    if(sexo=='HOM'):
+        var='casosh' 
+    if(sexo=='MUJ'):
+        var='casosm'
+    if(sexo=='TOD'):
+        var='total'
+ 
  return dff,var 
 
     
@@ -219,26 +247,36 @@ def calculate_vics(df, states=None, start_date=None, end_date=None):
     
     return data
 
-def calculate_bar(df, states=None, start_date=None, end_date=None):
+def calculate_bar(df, dpto,sexo):
      data = []
      dff = df.copy()
-     dff['YEAR'] =dff['Fecha'].dt.to_period('Y').dt.strftime('%Y')
-     by_date = dff >> group_by(X.YEAR) >> summarize(Cases = X.Fecha.count())
-     #sns.lineplot(x = 'Fecha', y = 'Cases', data = by_date, palette='viridis')
-     if states:
-        dff = dff[(df['State_abbr'].isin(states))]
-        
-     if  start_date and end_date:
-        dff = dff[(df['Fecha'] >= start_date) & (df['Fecha'] <= end_date)]
-
-    #subcategory_grouped = dff.groupby(['Category'], as_index=False)
-    #for name, group in subcategory_grouped:
-     #   grouped = group.groupby('YearMonth', as_index=False).sum()
-     data.append(go.Bar(
-        x=by_date['YEAR'], y=by_date['Cases'],marker=dict(color='#FFBF00')))
-  
-    
+     dff['Mun_corrected'] = dff['Municipio'].map(col_state_abbrev)
+     dff=dff[dff['Mun_corrected']==dpto]
+     dff=calctasas(dff) 
+     var='total'
+     data.append(go.Bar(x=dff['año'], y=dff['casosh'],name='Casos hombres', marker_color='#FFBF00'))
+     data.append(go.Bar(x=dff['año'], y=dff['casosm'],name='Casos mujeres',marker_color='red'))
+     
      return data
+
+def calculate_desencadenante():
+     data = []
+     #dff = df.copy()
+     #dff['Mun_corrected'] = dff['Municipio'].map(col_state_abbrev)
+     #dff=dff[dff['Mun_corrected']==dpto]
+     #dff=calctasas(dff) 
+     #var='total'
+     data.append(go.Bar(x=['Intolerancia,Machismo'], y=['56.75'],name='Hombres', marker_color='#FFBF00'))
+     data.append(go.Bar(x=['Intolerancia,Machismo'], y=['46.34'],name='Mujeres', marker_color='red'))
+     data.append(go.Bar(x=['Celos,desconfianza,infidelidad'], y=['29.71'],name='Hombres', marker_color='#FFBF00'))
+     data.append(go.Bar(x=['Celos,desconfianza,infidelidad'], y=['36.75'],name='Mujeres', marker_color='red'))
+     data.append(go.Bar(x=['Alcoholismo/Drogadiccion'], y=['9.41'],name='Hombres', marker_color='#FFBF00'))
+     data.append(go.Bar(x=['Alcoholismo/Drogadiccion'], y=['14.07'],name='Mujeres', marker_color='red'))
+     data.append(go.Bar(x=['Economicas'], y=['0.94'],name='Hombres', marker_color='#FFBF00'))
+     data.append(go.Bar(x=['Economicas'], y=['0.39'],name='Mujeres', marker_color='red'))
+     #data.append(go.Bar(x=dff['año'], y=dff['casosm'],name='Casos mujeres',marker_color='red'))
+     
+     return data     
 
 def layout():
 
@@ -267,6 +305,46 @@ def layout():
                 
             }
         )]),
+      html.Div(
+                id='graph1',    
+        children=[ 
+             html.H4("CASOS REPORTADOS EN EL TIEMPO"),
+        dcc.Graph(
+                           id='map1', # Plot 1
+                            figure={
+                                'data': calculate_bar(dfallpar, 'CUNDINAMARCA','total'),
+                                'layout': go.Layout(
+                                    width=400,
+                                    height=250,
+                                    paper_bgcolor='rgba(0,0,0,0)',
+                                    plot_bgcolor='rgba(0,0,0,0)',
+                                    margin={"r":0,"t":0,"l":30,"b":30},
+                                    #margin={'t': 10, 'r': 10,}
+                                )
+                            },
+                        ),
+             html.H4("Factor desencadenante"),
+             dcc.Graph(
+                           id='map2', # Plot 1
+                            figure={
+                                'data': calculate_desencadenante(),
+                                'layout': go.Layout(
+                                    width=400,
+                                    height=250,
+                                    paper_bgcolor='rgba(0,0,0,0)',
+                                    plot_bgcolor='rgba(0,0,0,0)',
+                                    margin={"r":0,"t":0,"l":30,"b":30},
+                                    #margin={'t': 10, 'r': 10,}
+                                )
+                            },
+                        ),
+                          ]),
+                         
+                        
+                      
+
+
+        
       
        
      
@@ -347,6 +425,25 @@ def layout():
                                         value='TOD',
                                         labelStyle={'display': 'inline-block'}
                                     ),
+                                     html.Br(),
+                        html.Div(
+                            'Conteo',
+                            title='Conteo',
+                            className='fullwidth-app-controls-name',
+                        ),
+
+
+                           dcc.RadioItems(
+                                        id="den-select",
+                                        options=[
+                                                {'label': 'Total', 'value': 'TOT'},
+                                                {'label': 'Densidad', 'value': 'DEN'}
+                                                
+                                        ],
+                                        value='DEN',
+                                        labelStyle={'display': 'inline-block'}
+                                    ),
+                       
 
                        
                     ])
@@ -368,18 +465,19 @@ def callbacks(_app):
     [
         dash.dependencies.Input('año-select', 'value'), 
         dash.dependencies.Input('tipo-select', 'value'),
-        dash.dependencies.Input('sexo-select', 'value')
+        dash.dependencies.Input('sexo-select', 'value'),
+         dash.dependencies.Input('den-select', 'value')
 
     ])
-    def update_map(año,tipo,sexo):
+    def update_map(año,tipo,sexo,den):
             if(tipo=='NNA'):
-                dff,var = filter_df(dfallnna,año,tipo,sexo)
+                dff,var = filter_df(dfallnna,año,tipo,sexo,den)
             elif(tipo=='OTH'):
-                dff,var = filter_df(dfalloth,año,tipo,sexo)
+                dff,var = filter_df(dfalloth,año,tipo,sexo,den)
             elif(tipo=='OLD'):
-                dff,var = filter_df(dfallold,año,tipo,sexo)
+                dff,var = filter_df(dfallold,año,tipo,sexo,den)
             elif(tipo=='PAR'):
-                dff,var = filter_df(dfallpar,año,tipo,sexo)
+                dff,var = filter_df(dfallpar,año,tipo,sexo,den)
            
         
             
@@ -428,13 +526,43 @@ def callbacks(_app):
     
 
     @_app.callback(
-        Output('data-meta-storage', 'data'),
-        [Input('file-upload', 'contents'),
-         Input('file-upload', 'filename'),
-         Input('clustergram-datasets', 'value')]
-    )
-    def store_file_meta_data(contents, filename, dataset_name):
-        return True
+        Output('map1', 'figure'),
+        [Input('map-chart', 'clickData'),
+        dash.dependencies.Input('año-select', 'value'), 
+        dash.dependencies.Input('tipo-select', 'value'),
+        dash.dependencies.Input('sexo-select', 'value')
+        ])
+    def display_click_data(clickData,año,tipo,sexo):
+       json_dict = json.loads(json.dumps(clickData))
+      
+       dpto=""
+       if(tipo=='NNA'):
+            dff,var = filter_df(dfallnna,año,tipo,sexo)
+       elif(tipo=='OTH'):
+            dff,var = filter_df(dfalloth,año,tipo,sexo)
+       elif(tipo=='OLD'):
+            dff,var = filter_df(dfallold,año,tipo,sexo)
+       elif(tipo=='PAR'):
+            dff,var = filter_df(dfallpar,año,tipo,sexo)  
+       if(json_dict): 
+            dpto=str(json_dict['points'][0]['location'])
+            fig=calculate_bar(dff, dpto,sexo)
+       else:
+           dff,var = filter_df(dfallpar,'TOD',tipo,'TOD') 
+           fig=calculate_bar(dff, 'CUNDINAMARCA',sexo)
+       
+       return  {
+                                    'data': fig,
+                                    'layout': go.Layout(
+                                        width=400,
+                                        height=250,
+                                        paper_bgcolor='rgba(0,0,0,0)',
+                                        plot_bgcolor='rgba(0,0,0,0)',
+                                        margin={"r":0,"t":0,"l":30,"b":30},
+                                        #margin={'t': 10, 'r': 10,}
+                                    )
+                                }   
+        
  
 # only declare app/server if the file is being run directly
 if 'DASH_PATH_ROUTING' in os.environ or __name__ == '__main__':
